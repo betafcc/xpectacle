@@ -15,3 +15,12 @@ class ActiveWindow:
             f : Callable[[core.Geometry, core.Geometry], core.Geometry],
             ) -> 'ActiveWindow':
         return replace(self, transform=lambda vp, win: self.transform(vp, f(vp, win)))
+
+    def center(self) -> 'ActiveWindow':
+        return self.center_x().center_y()
+
+    def center_x(self) -> 'ActiveWindow':
+        return self.map(lambda vp, win: replace(win, x=vp.x + (vp.width - win.width) / 2))
+
+    def center_y(self) -> 'ActiveWindow':
+        return self.map(lambda vp, win: replace(win, y=vp.y + (vp.height - win.height) / 2))
