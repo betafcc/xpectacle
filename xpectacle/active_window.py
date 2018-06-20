@@ -24,3 +24,22 @@ class ActiveWindow:
 
     def center_y(self) -> 'ActiveWindow':
         return self.map(lambda vp, win: replace(win, y=vp.y + (vp.height - win.height) / 2))
+
+    def tile(self,
+             rows     : int,
+             columns  : int,
+             position : int,
+             ) -> 'ActiveWindow':
+
+        def mapper(vp, win):
+            width, height = vp.width / columns, vp.height / rows
+            index = position - 1
+
+            return replace(win,
+                x=(index % columns) * width,
+                y=(index // columns) * height,
+                width=width,
+                height=height,
+            )
+
+        return self.map(mapper)
