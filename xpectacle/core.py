@@ -47,9 +47,11 @@ def set_window(geometry : Geometry,
     `x` and `y` are relative to viewport,
     `width` and `height` are the target bounding rectangle
     '''
-    if viewport is None:
-        viewport = get_viewport()
-    if window is None:
-        window = get_window()
+    # if viewport is None:
+    #     viewport = get_viewport()
+    # if window is None:
+    #     window = get_window()
 
-    pass
+    args = ",".join(map(str, map(round, geometry)))
+
+    sh.run(f'wmctrl -i -r $(xdotool getactivewindow) -e 0,{args}')
