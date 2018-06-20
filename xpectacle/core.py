@@ -34,7 +34,7 @@ def get_window() -> Geometry:
     pass
 
 
-def set_window(target   : Geometry,
+def set_window(geometry : Geometry,
                viewport : Optional[Geometry] = None,
                window   : Optional[Geometry] = None,
                ) -> None:
