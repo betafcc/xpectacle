@@ -1,7 +1,7 @@
 from typing import Union, Optional
 
 import re
-from dataclasses import dataclass, astuple
+from dataclasses import dataclass, astuple, replace
 
 from . import sh
 
@@ -18,6 +18,17 @@ class Geometry:
 
     def __iter__(self):
         yield from astuple(self)
+
+
+    def align_to(self,
+                 reference : 'Geometry',
+                 ) -> 'Geometry':
+        '''Sums origin to reference origin'''
+
+        return replace(self,
+            x=self.x + reference.x,
+            y=self.y + reference.y,
+        )
 
 
 def get_viewport() -> Geometry:
