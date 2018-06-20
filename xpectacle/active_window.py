@@ -2,17 +2,18 @@ from typing import Callable
 from dataclasses import dataclass, replace
 
 from . import core
+from .geometry import Geometry
 
 
 @dataclass(frozen=True)
 class ActiveWindow:
-    transform : Callable[[core.Geometry, core.Geometry], core.Geometry] = lambda vp, win: win
+    transform : Callable[[Geometry, Geometry], Geometry] = lambda vp, win: win
 
     def apply(self) -> None:
         core.set_window(self.transform(core.get_viewport(), core.get_window()))
 
     def map(self,
-            f : Callable[[core.Geometry, core.Geometry], core.Geometry],
+            f : Callable[[Geometry, Geometry], Geometry],
             ) -> 'ActiveWindow':
         return replace(self, transform=lambda vp, win: self.transform(vp, f(vp, win)))
 
