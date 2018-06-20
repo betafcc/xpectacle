@@ -7,6 +7,9 @@ name = "pypi"
 
 [dev-packages]
 ipython = "*"
+mypy = "*"
+"flake8" = "*"
+invoke = "*"
 
 [requires]
 python_version = "3.7"
