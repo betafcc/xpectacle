@@ -6,4 +6,8 @@ def run(command):
 
 
 def lines(command):
-    return check_output(command, shell=True).decode('utf-8').split('\n')
+    return output(command).split('\n')
+
+
+def output(command):
+    return check_output(command, shell=True).decode('utf-8')
