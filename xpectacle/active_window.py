@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Optional
 from dataclasses import dataclass, replace
 
 from . import core
@@ -27,9 +27,11 @@ class ActiveWindow:
         return self.map(lambda vp, win: replace(win, y=vp.y + (vp.height - win.height) / 2))
 
     def tile(self,
-             rows     : int,
-             columns  : int,
-             position : int,
+             rows        : int,
+             columns     : int,
+             position    : int,
+             grid_width  : Optional[int] = 1,
+             grid_height : Optional[int] = 1,
              ) -> 'ActiveWindow':
 
         def mapper(vp, win):
@@ -39,8 +41,8 @@ class ActiveWindow:
             return replace(win,
                 x=(index % columns) * width,
                 y=(index // columns) * height,
-                width=width,
-                height=height,
+                width=width * grid_width,
+                height=height * grid_height,
             )
 
         return self.map(mapper)
