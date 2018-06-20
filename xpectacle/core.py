@@ -31,7 +31,11 @@ def get_viewport() -> Geometry:
 
 def get_window() -> Geometry:
     '''Get active window bounding rectangle geometry'''
-    pass
+    _ = sh.output('xwininfo -all -id $(xdotool getactivewindow)')
+    _ = re.findall(r'.*(?:Absolute|Width|Height).*?(\d+)', _)
+    _ = map(int, _)
+
+    return Geometry(*_)
 
 
 def set_window(geometry : Geometry,
