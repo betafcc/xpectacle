@@ -43,3 +43,28 @@ class ActiveWindow:
             )
 
         return self.map(mapper)
+
+    def corner(self,
+               n : int,
+               ) -> 'ActiveWindow':
+
+        def mapper(vp, win):
+            if n == 1:
+                return replace(win, x=0, y=0)
+            if n == 2:
+                return replace(win,
+                    x=vp.x + vp.width - win.width,
+                    y=vp.y,
+                )
+            if n == 3:
+                return replace(win,
+                    x=vp.x,
+                    y=vp.y + vp.height - win.height,
+                )
+            if n == 4:
+                return replace(win,
+                    x=vp.x + vp.width - win.width,
+                    y=vp.y + vp.height - win.height,
+                )
+
+        return self.map(mapper)
