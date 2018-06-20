@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Optional
 
 import re
 from dataclasses import dataclass, astuple
@@ -20,10 +20,32 @@ class Geometry:
         yield from astuple(self)
 
 
-def viewport() -> Geometry:
+def get_viewport() -> Geometry:
     '''Get current viewport geometry'''
     for line in sh.lines('wmctrl -d'):
         match = re.findall(r'.+\*.+\s+(\d+),(\d+)\s+(\d+)x(\d+)', line)
 
         if match:
             return Geometry(*map(int, match[0]))
+
+
+def get_window() -> Geometry:
+    '''Get active window bounding rectangle geometry'''
+    pass
+
+
+def set_window(target   : Geometry,
+               viewport : Optional[Geometry] = None,
+               window   : Optional[Geometry] = None,
+               ) -> None:
+    '''
+    Transform active window geometry.
+    `x` and `y` are relative to viewport,
+    `width` and `height` are the target bounding rectangle
+    '''
+    if viewport is None:
+        viewport = get_viewport()
+    if window is None:
+        window = get_window()
+
+    pass
