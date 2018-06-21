@@ -31,11 +31,18 @@ class ActiveWindow:
              y        : int,
              absolute : Optional[bool] = False,
              ) -> 'ActiveWindow':
-        _absolute = int(bool(absolute))
-
         return self.map(lambda vp, win: replace(win,
-            x=x + vp.x * _absolute,
-            y=y + vp.y * _absolute,
+            x=x + vp.x * (0 if absolute else 1),
+            y=y + vp.y * (0 if absolute else 1),
+        ))
+
+    def resize(self,
+               width  : int,
+               height : int,
+               ) -> 'ActiveWindow':
+        return self.map(lambda vp, win: replace(win,
+            width=width,
+            height=height,
         ))
 
     def tile(self,
