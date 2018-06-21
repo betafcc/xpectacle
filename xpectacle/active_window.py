@@ -26,6 +26,18 @@ class ActiveWindow:
     def center_y(self) -> 'ActiveWindow':
         return self.map(lambda vp, win: replace(win, y=vp.y + (vp.height - win.height) / 2))
 
+    def move(self,
+             x        : int,
+             y        : int,
+             absolute : Optional[bool] = False,
+             ) -> 'ActiveWindow':
+        _absolute = int(bool(absolute))
+
+        return self.map(lambda vp, win: replace(win,
+            x=x + vp.x * _absolute,
+            y=y + vp.y * _absolute,
+        ))
+
     def tile(self,
              rows        : int,
              columns     : int,
