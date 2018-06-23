@@ -1,6 +1,7 @@
-* TODO [0/5]
-  - [ ] Just do a usable get_window
-  - [ ] Just do a usable set_window
+* TODO [2/5]
+  - [X] Just do a usable get_window
+  - [X] Just do a usable set_window
+  - [ ] Uses ehwm instead of bash utils
   - [ ] Improves get_window calculation for the many decorations sizes
   - [ ] multiple monitors support with xrandr
   - [ ] Keybindings daemon?
