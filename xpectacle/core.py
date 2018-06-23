@@ -6,8 +6,8 @@ from . import sh
 from .geometry import Geometry
 
 
-def get_viewport() -> Geometry:
-    '''Get current viewport geometry'''
+def get_workarea() -> Geometry:
+    '''Get current workarea geometry'''
     for line in sh.lines('wmctrl -d'):
         match = re.findall(r'.+\*.+\s+(\d+),(\d+)\s+(\d+)x(\d+)', line)
 
@@ -25,20 +25,20 @@ def get_window() -> Geometry:
 
 
 def set_window(geometry : Geometry,
-               viewport : Optional[Geometry] = None,
+               workarea : Optional[Geometry] = None,
                window   : Optional[Geometry] = None,
                ) -> None:
     '''
     Transform active window geometry.
-    `x` and `y` are relative to viewport,
+    `x` and `y` are relative to workarea,
     `width` and `height` are the target bounding rectangle
     '''
-    if viewport is None:
-        viewport = get_viewport()
+    if workarea is None:
+        workarea = get_workarea()
     if window is None:
         window = get_window()
 
-    _ = geometry.align_to(viewport)
+    _ = geometry.align_to(workarea)
     _ = ",".join(map(str, map(round, _)))
 
     sh.run(f'wmctrl -i -r $(xdotool getactivewindow) -e 0,{_}')

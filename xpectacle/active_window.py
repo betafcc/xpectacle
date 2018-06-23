@@ -10,7 +10,7 @@ class ActiveWindow:
     transform : Callable[[Geometry, Geometry], Geometry] = lambda vp, win: win
 
     def apply(self) -> None:
-        core.set_window(self.transform(core.get_viewport(), core.get_window()))
+        core.set_window(self.transform(core.get_workarea(), core.get_window()))
 
     def map(self,
             f : Callable[[Geometry, Geometry], Geometry],
