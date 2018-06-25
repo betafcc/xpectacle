@@ -6,6 +6,7 @@ from ewmh import EWMH
 
 from . import sh
 from .geometry import Geometry
+from .ewmh_util import get_active_sub_root_window
 
 
 ewmh = EWMH()
@@ -23,14 +24,7 @@ def get_workarea() -> Geometry:
 def get_window() -> Geometry:
     '''Get active window bounding rectangle geometry'''
 
-    # 0 get active window
-    _ = ewmh.getActiveWindow()
-
-    # 1 climb tree up until before root
-    _parent = _
-    while _parent != ewmh.root:
-        _ = _parent
-        _parent = _.query_tree().parent
+    _ = get_active_sub_root_window(ewmh)
 
     # 2 get bounding rectangle
     _ = _.get_geometry()._data
