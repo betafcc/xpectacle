@@ -22,11 +22,25 @@ def get_workarea() -> Geometry:
 
 def get_window() -> Geometry:
     '''Get active window bounding rectangle geometry'''
-    _ = sh.output('xwininfo -all -id $(xdotool getactivewindow)')
-    _ = re.findall(r'.*(?:Absolute|Width|Height).*?(\d+)', _)
-    _ = map(int, _)
 
-    return Geometry(*_)
+    # 0 get active window
+    _ = ewmh.getActiveWindow()
+
+    # 1 climb tree up until before root
+    _parent = _
+    while _parent != ewmh.root:
+        _ = _parent
+        _parent = _.query_tree().parent
+
+    # 2 get bounding rectangle
+    _ = _.get_geometry()._data
+    _ = {
+        k: _[k]
+        for k in ['x', 'y', 'width', 'height']
+    }
+
+    # 3 Geometry
+    return Geometry(**_)
 
 
 def set_window(geometry : Geometry,
