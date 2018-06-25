@@ -2,17 +2,22 @@ from typing import Optional
 
 import re
 
+from ewmh import EWMH
+
 from . import sh
 from .geometry import Geometry
 
 
+ewmh = EWMH()
+
+
 def get_workarea() -> Geometry:
     '''Get current workarea geometry'''
-    for line in sh.lines('wmctrl -d'):
-        match = re.findall(r'.+\*.+\s+(\d+),(\d+)\s+(\d+)x(\d+)', line)
+    _ = ewmh.getCurrentDesktop()
+    _ = ewmh.getWorkArea()[_*4:][:4]
+    _ = Geometry(*_)
 
-        if match:
-            return Geometry(*map(int, match[0]))
+    return _
 
 
 def get_window() -> Geometry:
